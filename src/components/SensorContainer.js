@@ -22,13 +22,13 @@ class SensorBox extends Component {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:3030/status/${this.props.sensorId}`)
+    axios.get(`http://127.0.0.1:5000/status/${this.props.sensorId}`)
     .then(res => {
       const sensorValue = res.value;
       this.setState({ sensorValue });
     })
     .catch(function (error) {
-      this.setState({sensorValue:NaN});
+      //this.setState({sensorValue:NaN});
     });
   }
 

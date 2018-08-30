@@ -21,7 +21,7 @@ class ControllerBox extends Component {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:3030/config/${this.props.controllerId}`)
+    axios.get(`http://127.0.0.1:5000/config/${this.props.controllerId}`)
     .then(res => {
       const Kp_val = res.Kp;
       const Ki_val = res.Ki;
@@ -29,7 +29,7 @@ class ControllerBox extends Component {
       this.setState({ Kp:Kp_val, Ki:Ki_val, Kd:Kd_val });
     })
     .catch(function (error) {
-      this.setState({Kp:NaN, Ki:NaN, Kd:NaN});
+      //this.setState({Kp:NaN, Ki:NaN, Kd:NaN});
     });
   }
 
@@ -56,7 +56,7 @@ class ControllerBox extends Component {
   }
 
   sendControllerValues() {
-    axios.post(`http://localhost:3030/config/${this.props.controllerId}`, {
+    axios.post(`http://127.0.0.1:5000/config/${this.props.controllerId}`, {
       Kp: this.state.Kp_value,
       Ki: this.state.Ki_value,
       Kd: this.state.Kd_value

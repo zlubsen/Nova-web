@@ -4,6 +4,7 @@ module.exports = options => {
     output: {
       filename: 'bundle.js',
     },
+    mode: 'development',
     module: {
       rules: [
         {

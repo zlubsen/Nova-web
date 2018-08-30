@@ -14,10 +14,12 @@ export default class ControllerContainer extends Component {
 }
 
 class ControllerBox extends Component {
+  controllerStepSize = 0.01
+
   state = {
-    Kp_value: -1,
-    Ki_value: -1,
-    Kd_value: -1,
+    Kp: -1,
+    Ki: -1,
+    Kd: -1,
   }
 
   componentDidMount() {
@@ -37,20 +39,32 @@ class ControllerBox extends Component {
     return (
       <div>
         {this.props.name}:<br/>
-        Kp: <input type='text' value={this.state.Kp_value} onChange={evt => this.updateControllerValue(evt, 'Kp')} /><br/>
-        Ki: <input type='text' value={this.state.Ki_value} onChange={evt => this.updateControllerValue(evt, 'Ki')} /><br/>
-        Kd: <input type='text' value={this.state.Kd_value} onChange={evt => this.updateControllerValue(evt, 'Kd')} /><br/>
+        Kp: <input type='text' value={this.state.Kp} onChange={evt => this.updateControllerValue(evt, 'Kp')} />&nbsp;<button onClick={evt => this.updateControllerValueStep(evt, 'Kp', true)} />&nbsp;<button onClick={evt => this.updateControllerValueStep(evt, 'Kp', false)} /><br/>
+        Ki: <input type='text' value={this.state.Ki} onChange={evt => this.updateControllerValue(evt, 'Ki')} />&nbsp;<button onClick={evt => this.updateControllerValueStep(evt, 'Ki', true)} />&nbsp;<button onClick={evt => this.updateControllerValueStep(evt, 'Kp', false)} /><br/>
+        Kd: <input type='text' value={this.state.Kd} onChange={evt => this.updateControllerValue(evt, 'Kd')} />&nbsp;<button onClick={evt => this.updateControllerValueStep(evt, 'Kd', true)} />&nbsp;<button onClick={evt => this.updateControllerValueStep(evt, 'Kp', false)} /><br/>
       </div>
     )
   }
 
-  updateControllerValue(evt, param) {
+  updateControllerValueStep(evt, param, positiveStep) {
+    var current_value = this.state[param];
+
+    positiveStep ?
+      this.updateControllerValue(param, current_value+controllerStepSize) :
+      this.updateControllerValue(param, current_value-controllerStepSize);
+  }
+
+  updateControllerValueManual(evt, param) {
+    this.updateControllerValue(param, evt.target.value);
+  }
+
+  updateControllerValue(param, new_value) {
     if(param == 'Kp')
-      this.setState({Kp_value:evt.target.value});
+      this.setState({Kp:new_value});
     else if(param = 'Ki')
-      this.setState({Ki_value:evt.target.value});
+      this.setState({Ki:new_value});
     else if(param = 'Kd')
-      this.setState({Kd_value:evt.target.value});
+      this.setState({Kd:new_value});
 
     this.sendControllerValues();
   }
